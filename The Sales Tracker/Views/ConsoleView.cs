@@ -439,7 +439,9 @@ namespace The_Sales_Tracker
             foreach (Product.ProductType products in salesperson.ProductList)
             {
                 Console.WriteLine($"\t- {products}");
-            }            
+            }
+
+            DisplayContinuePrompt();
         }
 
         /// <summary>
@@ -612,7 +614,7 @@ namespace The_Sales_Tracker
             }
             else
             {
-                return userResponse == "YES" ? true : false;
+                return true;
             }
         }
 
@@ -634,7 +636,7 @@ namespace The_Sales_Tracker
             }
             else
             {
-                return userResponse == "YES" ? true : false;
+                return true;
             }
         }
 
@@ -659,7 +661,7 @@ namespace The_Sales_Tracker
             }
             else
             {
-                return userResponse == "YES" ? true : false;
+                return true;
             }
         }
         #endregion

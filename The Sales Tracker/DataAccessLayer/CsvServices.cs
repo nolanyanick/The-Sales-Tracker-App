@@ -11,7 +11,7 @@ namespace The_Sales_Tracker
     {
         #region Fields
 
-        private string _dataFilePath;
+        public string _dataFilePath;
 
         #endregion
 
@@ -76,10 +76,6 @@ namespace The_Sales_Tracker
             salesperson.LastName = salespersonInfoArray[1];
             salesperson.AccountID = salespersonInfoArray[2];
 
-
-
-
-
             if (!Enum.TryParse<Product.ProductType>(salespersonInfoArray[3], out productType))
             {
                 productType = Product.ProductType.None;
@@ -134,22 +130,48 @@ namespace The_Sales_Tracker
             //
             salespersonData = sb.ToString();
 
-            //
-            // initialize a FileStream object for writing
-            //
-            FileStream wFileStream = File.OpenWrite(DataSettings.dataFilePathCsv);
+            try
+            {
+                //
+                // initialize a FileStream object for writing
+                //
+                FileStream wFileStream = File.OpenWrite(DataSettings.dataFilePathCsv);
 
-            //
-            // wrap the FileStream object in a using statement the ensure of the dispose
-            //
-       
-                // wrap the FileStream object in a StreamWriter object to simplify writing strings\
-                StreamWriter sWriter = new StreamWriter("Data\\Data.txt");
-
-                using (sWriter)
+                using (wFileStream)
                 {
-                    sWriter.Write(salespersonData);
-                }            
+                    // wrap the FileStream object in a StreamWriter object to simplify writing strings\
+                    StreamWriter sWriter = new StreamWriter(wFileStream);
+
+                    using (sWriter)
+                    {
+                        sWriter.Write(salespersonData);
+                    }
+                }
+            }
+            catch (System.IO.DirectoryNotFoundException)
+            {
+                //
+                // create a directory if one is not lareayd present
+                //
+                Directory.CreateDirectory("Data");
+
+                FileStream wFileStream = File.OpenWrite(DataSettings.dataFilePathCsv);
+
+                using (wFileStream)
+                {
+                    // wrap the FileStream object in a StreamWriter object to simplify writing strings\
+                    StreamWriter sWriter = new StreamWriter("Data\\Data.txt");
+
+                    using (sWriter)
+                    {
+                        sWriter.Write(salespersonData);
+                    }
+                }
+            }
+            finally
+            {
+
+            }
         }
 
         #endregion

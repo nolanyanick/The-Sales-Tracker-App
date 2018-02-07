@@ -8,7 +8,7 @@ namespace The_Sales_Tracker
 {
     public static class DataSettings
     {
-        public const string dataFilePathCsv = "Data.txt";
+        public const string dataFilePathCsv = "Data\\Data.txt";
         public const string dataFilePathXml = "Data\\Data.xml";     
     }
 }

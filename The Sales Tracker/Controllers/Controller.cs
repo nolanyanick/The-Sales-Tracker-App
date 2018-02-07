@@ -242,6 +242,7 @@ namespace The_Sales_Tracker
 
             saveAccountInfo = _consoleView.DisplaySaveAccountInfo(_salesperson, out maxAttemptsExceeded);
 
+
             if (saveAccountInfo && !maxAttemptsExceeded)
             {
                 CsvServices csvServices = new CsvServices(DataSettings.dataFilePathCsv);
