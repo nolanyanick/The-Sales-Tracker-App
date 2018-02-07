@@ -75,6 +75,7 @@ namespace The_Sales_Tracker
             salesperson.FirstName = salespersonInfoArray[0];
             salesperson.LastName = salespersonInfoArray[1];
             salesperson.AccountID = salespersonInfoArray[2];
+            //salesperson.StartingCity = salespersonInfoArray[6];
 
             if (!Enum.TryParse<Product.ProductType>(salespersonInfoArray[3], out productType))
             {
@@ -83,10 +84,23 @@ namespace The_Sales_Tracker
             salesperson.CurrentStock.Type = productType;
 
             salesperson.CurrentStock.AddProducts(Convert.ToInt32(salespersonInfoArray[4]));
-            salesperson.CurrentStock.OnBackorder = Convert.ToBoolean(salespersonInfoArray[5]); 
+            salesperson.CurrentStock.OnBackorder = Convert.ToBoolean(salespersonInfoArray[5]);
 
-            salesperson.CitiesVisited = citiesTraveled.Split(',').ToList();
-
+            //
+            // if CitiesVisited is null, then fill with empty strings
+            //
+            if (citiesTraveled == null)
+            {
+                for (int i = 0; i < salesperson.CitiesVisited.Count; i++)
+                {
+                    salesperson.CitiesVisited[i] = "";
+                }                
+            }
+            else
+            {
+                salesperson.CitiesVisited = citiesTraveled.Split(',').ToList();
+            }
+            
             return salesperson;
         }
 
@@ -172,6 +186,7 @@ namespace The_Sales_Tracker
             {
 
             }
+
         }
 
         #endregion
