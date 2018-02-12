@@ -94,6 +94,9 @@ namespace The_Sales_Tracker
                     case MenuOption.SetupAccount:
                         DisplaySetupAccount();
                         break;
+                    case MenuOption.UpdateAccount:
+                        DisplayUpdateAccount();
+                        break;
                     case MenuOption.Travel:
                         Travel();
                         break;
@@ -206,6 +209,15 @@ namespace The_Sales_Tracker
         }
 
         /// <summary>
+        /// update account
+        /// </summary>
+        private void DisplayUpdateAccount()
+        {
+            bool maxAttemptsExceeded = false;
+            _salesperson = _consoleView.DisplayUpdateAcountInfo(_salesperson, out maxAttemptsExceeded);
+        }
+
+        /// <summary>
         /// load account info and trvael log
         /// </summary>
         private void DisplayLoadAccountInfo()
@@ -213,13 +225,13 @@ namespace The_Sales_Tracker
             bool maxAttemptsExceeded = false;
             bool loadAccountInfo = false;
 
-            if (_salesperson.AccountID == "")
+            if (_salesperson.AccountID == null)
             {
-                loadAccountInfo = _consoleView.DisplayLoadAccountInfo(_salesperson, out maxAttemptsExceeded);
+                loadAccountInfo = _consoleView.DisplayLoadAccountInfo(out maxAttemptsExceeded);
             }
             else
             {
-                loadAccountInfo = _consoleView.DisplayLoadAccountInfo(out maxAttemptsExceeded);
+                loadAccountInfo = _consoleView.DisplayLoadAccountInfo(_salesperson, out maxAttemptsExceeded);
             }
 
             if (loadAccountInfo && !maxAttemptsExceeded)

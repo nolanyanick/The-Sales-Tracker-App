@@ -45,7 +45,7 @@ namespace The_Sales_Tracker
             Product.ProductType productType = new Product.ProductType();
 
             string salespersonInfo;
-            string[] salespersonInfoArray;
+            string[] salespersonInfoArray = new string[7];
             string citiesTraveled;
 
             //
@@ -75,26 +75,23 @@ namespace The_Sales_Tracker
             salesperson.FirstName = salespersonInfoArray[0];
             salesperson.LastName = salespersonInfoArray[1];
             salesperson.AccountID = salespersonInfoArray[2];
-            //salesperson.StartingCity = salespersonInfoArray[6];
+            salesperson.StartingCity = salespersonInfoArray[3];
 
-            if (!Enum.TryParse<Product.ProductType>(salespersonInfoArray[3], out productType))
+            if (!Enum.TryParse<Product.ProductType>(salespersonInfoArray[4], out productType))
             {
                 productType = Product.ProductType.None;
             }
             salesperson.CurrentStock.Type = productType;
 
-            salesperson.CurrentStock.AddProducts(Convert.ToInt32(salespersonInfoArray[4]));
-            salesperson.CurrentStock.OnBackorder = Convert.ToBoolean(salespersonInfoArray[5]);
+            salesperson.CurrentStock.AddProducts(Convert.ToInt32(salespersonInfoArray[5]));
+            salesperson.CurrentStock.OnBackorder = Convert.ToBoolean(salespersonInfoArray[6]);            
 
             //
-            // if CitiesVisited is null, then fill with empty strings
+            // if citiesTraveled is null, then ignore
             //
             if (citiesTraveled == null)
             {
-                for (int i = 0; i < salesperson.CitiesVisited.Count; i++)
-                {
-                    salesperson.CitiesVisited[i] = "";
-                }                
+                return salesperson;
             }
             else
             {
@@ -118,13 +115,14 @@ namespace The_Sales_Tracker
             sb.Append(salesperson.FirstName + delineator);
             sb.Append(salesperson.LastName + delineator);
             sb.Append(salesperson.AccountID + delineator);
+            sb.Append(salesperson.StartingCity + delineator);
             sb.Append(salesperson.CurrentStock.Type.ToString() + delineator);
             sb.Append(salesperson.CurrentStock.NumberOfUnits.ToString() + delineator);
             sb.Append(salesperson.CurrentStock.OnBackorder.ToString());
             sb.Append(Environment.NewLine);
 
             //
-            // add cities traveled to string
+            // add cities traveled to sb
             //
             foreach (string city in salesperson.CitiesVisited)
             {
@@ -134,7 +132,7 @@ namespace The_Sales_Tracker
             //
             // remove the last delineator
             //
-            if (sb.Length !=0)
+            if (sb.Length != 0)
             {
                 sb.Length--;
             }
@@ -145,48 +143,28 @@ namespace The_Sales_Tracker
             salespersonData = sb.ToString();
 
             try
-            {
-                //
-                // initialize a FileStream object for writing
-                //
-                FileStream wFileStream = File.OpenWrite(DataSettings.dataFilePathCsv);
-
-                using (wFileStream)
+            {                
+                using (StreamWriter sWriter = new StreamWriter(DataSettings.dataFilePathCsv, false))
                 {
-                    // wrap the FileStream object in a StreamWriter object to simplify writing strings\
-                    StreamWriter sWriter = new StreamWriter(wFileStream);
-
-                    using (sWriter)
-                    {
-                        sWriter.Write(salespersonData);
-                    }
+                    sWriter.Write(salespersonData);
                 }
             }
             catch (System.IO.DirectoryNotFoundException)
             {
                 //
-                // create a directory if one is not lareayd present
+                // create a directory if one is not already present
                 //
                 Directory.CreateDirectory("Data");
 
-                FileStream wFileStream = File.OpenWrite(DataSettings.dataFilePathCsv);
-
-                using (wFileStream)
+                using (StreamWriter sWriter = new StreamWriter(DataSettings.dataFilePathCsv, false))
                 {
-                    // wrap the FileStream object in a StreamWriter object to simplify writing strings\
-                    StreamWriter sWriter = new StreamWriter("Data\\Data.txt");
-
-                    using (sWriter)
-                    {
-                        sWriter.Write(salespersonData);
-                    }
+                    sWriter.Write(salespersonData);
                 }
             }
             finally
             {
 
             }
-
         }
 
         #endregion

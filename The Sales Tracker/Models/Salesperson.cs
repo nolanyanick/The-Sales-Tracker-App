@@ -13,8 +13,7 @@ namespace The_Sales_Tracker
         private string _lastName;
         private string _accountID;
         private string _startingCity;
-        private List<string> _citiesVisited;
-        private List<Product.ProductType> _productList;    
+        private List<string> _citiesVisited;          
         private Product _currentStock;
 
         #endregion
@@ -57,12 +56,6 @@ namespace The_Sales_Tracker
             set { _currentStock = value; }
         }
 
-        public List<Product.ProductType> ProductList
-        {
-            get { return _productList; }
-            set { _productList = value; }
-        }
-
         #endregion
 
         #region CONSTRUCTORS
@@ -70,8 +63,7 @@ namespace The_Sales_Tracker
         public Salesperson()
         {
             _citiesVisited = new List<string>();
-            _currentStock = new Product();
-            _productList = new List<Product.ProductType>();
+            _currentStock = new Product();            
         }
 
         public Salesperson(string firstName, string lastName, string acountID)
@@ -81,8 +73,7 @@ namespace The_Sales_Tracker
             _accountID = acountID;
 
             _citiesVisited = new List<string>();
-            _currentStock = new Product();
-            _productList = new List<Product.ProductType>();
+            _currentStock = new Product();            
         }
 
         #endregion

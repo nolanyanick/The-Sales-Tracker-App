@@ -1,0 +1,14 @@
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.exe.config
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.exe
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.pdb
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.csprojResolveAssemblyReference.cache
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.exe
+C:\Users\yanickn\Desktop\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.pdb
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.exe.config
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.exe
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\bin\Debug\The Sales Tracker.pdb
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.csprojResolveAssemblyReference.cache
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.csproj.CoreCompileInputs.cache
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.exe
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\obj\Debug\The Sales Tracker.pdb
+E:\C# - CIT 195\Week 04\The Sales Tracker\The Sales Tracker\bin\Debug\Data\Data.txt

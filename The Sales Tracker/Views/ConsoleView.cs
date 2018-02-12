@@ -89,20 +89,20 @@ namespace The_Sales_Tracker
 
             ConsoleUtil.DisplayReset();
 
-            ConsoleUtil.DisplayMessage("Written by John Velis");
+            ConsoleUtil.DisplayMessage("Written by Nolan Yanick");
             ConsoleUtil.DisplayMessage("Northwestern Michigan College");
             ConsoleUtil.DisplayMessage("");
 
             sb.Clear();
-            sb.AppendFormat("You are a traveling salesperson buying and selling widgets ");
+            sb.AppendFormat("You are a traveling salesperson buying and selling products ");
             sb.AppendFormat("around the country. You will be prompted regarding which city ");
             sb.AppendFormat("you wish to travel to and will then be asked whether you wish to buy ");
-            sb.AppendFormat("or sell widgets.");
+            sb.AppendFormat("or sell products.");
             ConsoleUtil.DisplayMessage(sb.ToString());
             ConsoleUtil.DisplayMessage("");
 
             sb.Clear();
-            sb.AppendFormat("Your first task will be to set up your account details.");
+            sb.AppendFormat("NOTE: Your first task will be to set up your account details.");
             ConsoleUtil.DisplayMessage(sb.ToString());
 
             DisplayContinuePrompt();
@@ -118,9 +118,7 @@ namespace The_Sales_Tracker
         {
             Salesperson salesperson = new Salesperson();
             Product.ProductType productType;
-            int numberOfUnits;
-            bool selectingProducts = true;
-            string userResponse;
+            int numberOfUnits;          
 
             ConsoleUtil.HeaderText = "Account Setup";
             ConsoleUtil.DisplayReset();
@@ -144,112 +142,64 @@ namespace The_Sales_Tracker
             salesperson.StartingCity = Console.ReadLine();
             ConsoleUtil.DisplayMessage("");
 
+            ConsoleUtil.HeaderText = "Account Setup";
             ConsoleUtil.DisplayReset();
-            ConsoleUtil.DisplayMessage("Next you must decide which products you want to use and how many\nyou would like to start off with.");
+
+            ConsoleUtil.DisplayMessage("Please select which type of product you want to work with from below.");
             ConsoleUtil.DisplayMessage("");
 
-            DisplayContinuePrompt();
+            ConsoleUtil.DisplayMessage("Product Types:");
+            ConsoleUtil.DisplayMessage("");
 
-            while (selectingProducts)
+            Console.Write(
+                "\t- Gilded" + Environment.NewLine +
+                "\t- Spiked" + Environment.NewLine +
+                "\t- Colorful" + Environment.NewLine +
+                "\t- Vintage" + Environment.NewLine +
+                "\t- Striped" + Environment.NewLine +
+                "\t- Used" + Environment.NewLine);         
+
+            ConsoleUtil.DisplayMessage("");
+            ConsoleUtil.DisplayPromptMessage("Enter product selection: ");
+
+            //
+            // get product type from user
+            //
+            if (Enum.TryParse<Product.ProductType>(UppercaseFirst(Console.ReadLine()), out productType))
+            {
+                salesperson.CurrentStock.Type = productType;               
+            }
+            else
             {
                 ConsoleUtil.DisplayReset();
-                ConsoleUtil.DisplayMessage("Please select which type of product you want to work with from below.");
-                ConsoleUtil.DisplayMessage("");
-
-                ConsoleUtil.DisplayMessage("Product Types:");
-                ConsoleUtil.DisplayMessage("");
-
-                Console.Write(
-                    "\t- Furry" + Environment.NewLine +
-                    "\t- Spotted" + Environment.NewLine +
-                    "\t- Dancing" + Environment.NewLine);
-
-                ConsoleUtil.DisplayMessage("");
-                ConsoleUtil.DisplayPromptMessage("Enter product selection: ");
-
-                //
-                // get product type from user
-                //
-                if (Enum.TryParse<Product.ProductType>(UppercaseFirst(Console.ReadLine()), out productType))
-                {
-                    salesperson.CurrentStock.Type = productType;
-                    salesperson.ProductList.Add(productType);
-                }
-                else
-                {
-                    ConsoleUtil.DisplayReset();
-                    ConsoleUtil.DisplayMessage("Seems like you entered an invalid product type.");
-                    ConsoleUtil.DisplayMessage("By default, your product type has been set to None.");
-                    salesperson.CurrentStock.Type = Product.ProductType.None;
-                    salesperson.ProductList.Add(productType);
-                    DisplayContinuePrompt();
-                }
-
-                //
-                // get number of products in inventory
-                //
-                ConsoleUtil.DisplayReset();
-                ConsoleUtil.DisplayMessage($"You have selected {productType} as your product type.");
-
-                if (ConsoleValidator.TryGetIntegerFromUser(MINIMUM_BUYSELL_AMOUNT, MAXIMUM_BUYSELL_AMOUNT, MAXIMUM_ATTEMPTS, $"{productType} products to add to your inventory", out numberOfUnits))
-                {
-                    ConsoleUtil.DisplayReset();
-                    salesperson.CurrentStock.AddProducts(numberOfUnits);
-                    ConsoleUtil.DisplayMessage($"Thank you! {numberOfUnits} {productType} products are now in your inventory!");
-                    DisplayContinuePrompt();
-                }
-                else
-                {
-                    ConsoleUtil.DisplayReset();
-                    ConsoleUtil.DisplayMessage("Maximum attempts exceeded!");
-                    ConsoleUtil.DisplayMessage($"By default, the number of {productType} products in your inventory are now set to zero.");
-                    salesperson.CurrentStock.AddProducts(0);
-                    DisplayContinuePrompt();
-                }
-
-                //
-                // query user for additional products
-                //
-                ConsoleUtil.DisplayReset();
-                ConsoleUtil.DisplayMessage($"You've selected {productType} as your first product type!");
-                ConsoleUtil.DisplayMessage($"You've chosen to start out with {numberOfUnits} units!");
-                ConsoleUtil.DisplayMessage("");
-                ConsoleUtil.DisplayPromptMessage("Would you like to add another? Yes or No:  ");
-                userResponse = Console.ReadLine().ToUpper();
-
-                if (userResponse == "YES")
-                {
-                    selectingProducts = true;
-                }
-                else if (userResponse == "NO")
-                {
-                    selectingProducts = false;
-                }
-                else
-                {
-                    while (userResponse != "YES" && userResponse != "NO")
-                    {
-                        ConsoleUtil.DisplayReset();
-                        ConsoleUtil.HeaderText = "Account Setup";
-                        
-                        ConsoleUtil.DisplayMessage("Invalid input!");
-                        ConsoleUtil.DisplayMessage("");
-                        ConsoleUtil.DisplayPromptMessage("Would you like to add another? Yes or No:  ");
-                        userResponse = Console.ReadLine().ToUpper();                        
-
-                        if (userResponse == "YES")
-                        {
-                            selectingProducts = true;                            
-                        }
-                        else
-                        {
-                            selectingProducts = false;
-                        }
-                    }
-                    
-                }
+                ConsoleUtil.DisplayMessage("Seems like you entered an invalid product type.");
+                ConsoleUtil.DisplayMessage("By default, your product type has been set to None.");
+                salesperson.CurrentStock.Type = Product.ProductType.None;                
+                DisplayContinuePrompt();
             }
 
+            //
+            // get number of products in inventory
+            //
+            ConsoleUtil.DisplayReset();
+            ConsoleUtil.DisplayMessage($"You have selected {productType} as your product type.");
+
+            if (ConsoleValidator.TryGetIntegerFromUser(MINIMUM_BUYSELL_AMOUNT, MAXIMUM_BUYSELL_AMOUNT, MAXIMUM_ATTEMPTS, $"{productType} products to add to your inventory", out numberOfUnits))
+            {
+                ConsoleUtil.DisplayReset();
+                salesperson.CurrentStock.AddProducts(numberOfUnits);
+                ConsoleUtil.DisplayMessage($"Thank you! {numberOfUnits} {productType} products are now in your inventory!");
+                DisplayContinuePrompt();
+            }
+            else
+            {
+                ConsoleUtil.DisplayReset();
+                ConsoleUtil.DisplayMessage("Maximum attempts exceeded!");
+                ConsoleUtil.DisplayMessage($"By default, the number of {productType} products in your inventory are now set to zero.");
+                salesperson.CurrentStock.AddProducts(0);
+                DisplayContinuePrompt();
+            }
+            
             ConsoleUtil.DisplayReset();
 
             ConsoleUtil.DisplayMessage("Your account is now setup!");
@@ -286,6 +236,9 @@ namespace The_Sales_Tracker
                 // set up display area
                 //
                 ConsoleUtil.HeaderText = "Main Menu";
+                ConsoleUtil.HeaderBackgroundColor = ConsoleColor.DarkYellow;
+                ConsoleUtil.HeaderForegroundColor = ConsoleColor.Black;
+                ConsoleUtil.BodyForegroundColor = ConsoleColor.Gray;
                 ConsoleUtil.DisplayReset();
                 Console.CursorVisible = false;
 
@@ -295,7 +248,8 @@ namespace The_Sales_Tracker
                 ConsoleUtil.DisplayMessage("Please type the number of your menu choice.");
                 ConsoleUtil.DisplayMessage("");
                 Console.Write(
-                    "\t" + "1. Setup Account" + Environment.NewLine +
+                    "\t" + "0. Setup Account" + Environment.NewLine +
+                    "\t" + "1. Update Account" + Environment.NewLine +
                     "\t" + "2. Travel" + Environment.NewLine +
                     "\t" + "3. Buy" + Environment.NewLine +
                     "\t" + "4. Sell" + Environment.NewLine +
@@ -313,8 +267,12 @@ namespace The_Sales_Tracker
                 ConsoleKeyInfo userResponse = Console.ReadKey(true);
                 switch (userResponse.KeyChar)
                 {
-                    case '1':
+                    case '0':
                         userMenuChoice = MenuOption.SetupAccount;
+                        usingMenu = false;
+                        break;
+                    case '1':
+                        userMenuChoice = MenuOption.UpdateAccount;
                         usingMenu = false;
                         break;
                     case '2':
@@ -402,9 +360,16 @@ namespace The_Sales_Tracker
             ConsoleUtil.DisplayMessage($"Since then you have traveled to the following cities:");
             ConsoleUtil.DisplayMessage("");
 
-            foreach (string city in salesperson.CitiesVisited)
+            if (salesperson.CitiesVisited.Count == 0)
             {
-                ConsoleUtil.DisplayMessage(city);
+                ConsoleUtil.DisplayMessage("You have not traveled anywhere yet.");
+            }
+            else
+            {
+                foreach (string city in salesperson.CitiesVisited)
+                {
+                    ConsoleUtil.DisplayMessage(city);
+                }
             }
 
             DisplayContinuePrompt();
@@ -413,8 +378,7 @@ namespace The_Sales_Tracker
         /// <summary>
         /// display the current account information
         /// </summary>
-        public void 
-            DisplayAccountInfo(Salesperson salesperson)
+        public void DisplayAccountInfo(Salesperson salesperson)
         {
             ConsoleUtil.HeaderText = "Account Info";
             ConsoleUtil.DisplayReset();
@@ -424,22 +388,17 @@ namespace The_Sales_Tracker
             ConsoleUtil.DisplayMessage("Account ID: " + salesperson.AccountID);
             ConsoleUtil.DisplayMessage("Starting City: " + salesperson.StartingCity);
 
-
             if (!salesperson.CurrentStock.OnBackorder)
             {
-                ConsoleUtil.DisplayMessage("Products in Inventory: " + salesperson.CurrentStock.NumberOfUnits * salesperson.ProductList.Count());
+                ConsoleUtil.DisplayMessage("Products in Inventory: " + salesperson.CurrentStock.NumberOfUnits);
             }
             else
             {
                 ConsoleUtil.DisplayMessage("Products on Backorder: " + Math.Abs(salesperson.CurrentStock.NumberOfUnits));
             }
-            ConsoleUtil.DisplayMessage("Product Type(s): ");
+            ConsoleUtil.DisplayMessage("Product Type: ");
             ConsoleUtil.DisplayMessage("");
-
-            foreach (Product.ProductType products in salesperson.ProductList)
-            {
-                Console.WriteLine($"\t- {products}");
-            }
+            ConsoleUtil.DisplayMessage($"\t- {salesperson.CurrentStock.Type}");
 
             DisplayContinuePrompt();
         }
@@ -449,12 +408,17 @@ namespace The_Sales_Tracker
         /// </summary>
         public void DisplayBackorderNotification(Product product, int numberOfUnitsSold)
         {
-            ConsoleUtil.HeaderText = "Inventory Backorder Notification";
-            ConsoleUtil.DisplayReset();
+            ConsoleUtil.HeaderText = "!ALERT!";
+            ConsoleUtil.HeaderBackgroundColor = ConsoleColor.Red;
+            ConsoleUtil.HeaderForegroundColor = ConsoleColor.White;
+            ConsoleUtil.BodyForegroundColor = ConsoleColor.Red;
+            ConsoleUtil.DisplayReset();        
 
             int numberOfUnitsBackordered = Math.Abs(product.NumberOfUnits);
             int numberOfUnitsShipped = numberOfUnitsSold - numberOfUnitsBackordered;
 
+            ConsoleUtil.DisplayMessage("Inventory Backorder Notification");
+            ConsoleUtil.DisplayMessage("");
             ConsoleUtil.DisplayMessage($"Products Sold: {numberOfUnitsSold}");
             ConsoleUtil.DisplayMessage($"Products Shipped: {numberOfUnitsShipped}");
             ConsoleUtil.DisplayMessage($"Products on Backorder: {numberOfUnitsBackordered}");
@@ -533,12 +497,8 @@ namespace The_Sales_Tracker
             ConsoleUtil.DisplayMessage("");
             ConsoleUtil.DisplayMessage("Products:");
             ConsoleUtil.DisplayMessage("");
-
-            foreach (Product.ProductType products in salesperson.ProductList)
-            {
-                Console.Write($"\t- {products}");
-                Console.WriteLine($", # of units: {units.NumberOfUnits.ToString()}");
-            }      
+            ConsoleUtil.DisplayPromptMessage($"\t- {salesperson.CurrentStock.Type}, # of units: {units.NumberOfUnits.ToString()}");
+            ConsoleUtil.DisplayMessage("");
 
             DisplayContinuePrompt();
         }
@@ -560,9 +520,34 @@ namespace The_Sales_Tracker
             return char.ToUpper(s[0]) + s.Substring(1).ToLower();
         }
 
+        /// <summary>
+        /// displays the current account information
+        /// </summary>       
         public void DisplayAccountDetail(Salesperson salesperson)
         {
-            DisplayAccountInfo(salesperson);
+            ConsoleUtil.DisplayMessage("First Name: " + salesperson.FirstName);
+            ConsoleUtil.DisplayMessage("Last Name: " + salesperson.LastName);
+            ConsoleUtil.DisplayMessage("Account ID: " + salesperson.AccountID);
+            ConsoleUtil.DisplayMessage("Starting City: " + salesperson.StartingCity);
+
+            if (!salesperson.CurrentStock.OnBackorder)
+            {
+                ConsoleUtil.DisplayMessage("Products in Inventory: " + salesperson.CurrentStock.NumberOfUnits);
+            }
+            else
+            {
+                ConsoleUtil.DisplayMessage("Products on Backorder: " + Math.Abs(salesperson.CurrentStock.NumberOfUnits));
+            }
+            ConsoleUtil.DisplayMessage("Product Type: " + salesperson.CurrentStock.Type);
+            ConsoleUtil.DisplayMessage("");            
+            
+            ConsoleUtil.DisplayMessage("Cities Traveled: ");
+            ConsoleUtil.DisplayMessage("");
+
+            foreach (string city in salesperson.CitiesVisited)
+            {
+                ConsoleUtil.DisplayMessage(city);
+            }
         }
 
         /// <summary>
@@ -574,6 +559,7 @@ namespace The_Sales_Tracker
             ConsoleUtil.DisplayReset();
 
             ConsoleUtil.DisplayMessage("Account information loaded.");
+            ConsoleUtil.DisplayMessage("");
 
             DisplayAccountDetail(salesperson);
 
@@ -612,19 +598,31 @@ namespace The_Sales_Tracker
                 ConsoleUtil.DisplayMessage("Max attempts exceeded! You will now be returned to the main menu.");
                 return false;
             }
-            else
+            else if (userResponse.ToUpper() == "YES")
             {
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
 
+        /// <summary>
+        /// prompts the user to load the account and travel log info (method is called if current account info is present)
+        /// </summary>
         public bool DisplayLoadAccountInfo(Salesperson salesperson, out bool maxAttemptsExceeded)
         {
             string userResponse;
             maxAttemptsExceeded = false;
 
-            ConsoleUtil.HeaderText = "Load Account";
+            ConsoleUtil.HeaderText = "!WARNING!";
             ConsoleUtil.DisplayReset();
+
+            ConsoleUtil.DisplayMessage("Loading previously saved data will overwrite the current information:");
+            ConsoleUtil.DisplayMessage("");
+
+            DisplayAccountDetail(salesperson);
 
             ConsoleUtil.DisplayMessage("");
             userResponse = ConsoleValidator.GetYesNoFromUser(MAXIMUM_ATTEMPTS, "Load account info?", out maxAttemptsExceeded);
@@ -634,12 +632,19 @@ namespace The_Sales_Tracker
                 ConsoleUtil.DisplayMessage("Max attempts exceeded! You will now be returned to the main menu.");
                 return false;
             }
-            else
+            else if (userResponse.ToUpper() == "YES")
             {
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
 
+        /// <summary>
+        /// prompts the user to save the account and travel log info
+        /// </summary>
         public bool DisplaySaveAccountInfo(Salesperson salesperson, out bool maxAttemptsExceeded)
         {
             string userResponse; 
@@ -659,11 +664,179 @@ namespace The_Sales_Tracker
                 ConsoleUtil.DisplayMessage("Max attempts exceeded! You will now be returned to the main menu.");
                 return false;
             }
-            else
+            else if (userResponse.ToUpper() == "YES")
             {
                 return true;
             }
+            {
+                return false;
+            }
         }
+        
+        /// <summary>
+        /// allows the user to update their account information
+        /// </summary>        
+        public Salesperson DisplayUpdateAcountInfo (Salesperson salesperson, out bool maxAttemptsExceeded)
+        {            
+            string userResponse;
+            bool editingAccount = true;
+            maxAttemptsExceeded = false;
+
+            ConsoleUtil.HeaderText = "Update Account";
+            ConsoleUtil.DisplayReset();
+
+            ConsoleUtil.DisplayMessage("");
+            ConsoleUtil.DisplayMessage(" NOTE: You cannot change the number units here. Use the Buy/Sell options \nfrom the main menu to do that.");
+
+            DisplayContinuePrompt();           
+
+            while (editingAccount)
+            {
+                ConsoleUtil.HeaderText = "Update Account";
+                ConsoleUtil.DisplayReset();
+
+                //
+                // displays current account info wihtout cities and number of units
+                //
+                #region Current Account Info
+
+                ConsoleUtil.DisplayMessage("Current account info:");
+                ConsoleUtil.DisplayMessage("");
+
+                ConsoleUtil.DisplayMessage("First Name: " + salesperson.FirstName);
+                ConsoleUtil.DisplayMessage("Last Name: " + salesperson.LastName);
+                ConsoleUtil.DisplayMessage("Account ID: " + salesperson.AccountID);
+                ConsoleUtil.DisplayMessage("Starting City: " + salesperson.StartingCity);
+                ConsoleUtil.DisplayMessage("Product Type: " + salesperson.CurrentStock.Type);
+
+                #endregion
+
+                ConsoleUtil.DisplayMessage("");
+                ConsoleUtil.DisplayMessage("Please select a corresonding number to change that part of your account.");
+                ConsoleUtil.DisplayMessage("");
+
+                ConsoleUtil.DisplayPromptMessage("1)First Name | 2)Last Name | 3)Account ID | 4)Starting City | 5)Product");
+
+                ConsoleUtil.DisplayMessage("");
+                ConsoleUtil.DisplayMessage("");
+                ConsoleUtil.DisplayMessage("");
+                ConsoleUtil.DisplayPromptMessage("Enter your choice here: ");
+                userResponse = Console.ReadLine();
+                ConsoleUtil.DisplayMessage("");
+
+                //
+                // get a valid answer form user
+                //
+                while (userResponse != "1" && userResponse != "2" && userResponse != "3" && userResponse != "4" && userResponse != "5")
+                {
+                    ConsoleUtil.HeaderText = "Invalid Input";
+                    ConsoleUtil.DisplayReset();
+
+                    ConsoleUtil.DisplayPromptMessage("1)First Name | 2)Last Name | 3)Account ID | 4)Starting City | 5)Product");
+                    ConsoleUtil.DisplayMessage("");
+                    ConsoleUtil.DisplayPromptMessage("Please enter a correct corresponding number: ");
+                    userResponse = Console.ReadLine();
+
+                    if (userResponse == "1" && userResponse == "2" && userResponse == "3" && userResponse == "4" && userResponse == "5")
+                    {
+                        break;
+                    }
+                }
+
+                //
+                // edit account info
+                //
+                switch (userResponse)
+                {
+                    case "1":
+                        ConsoleUtil.HeaderText = "Update First Name";
+                        ConsoleUtil.DisplayReset();
+
+                        ConsoleUtil.DisplayPromptMessage("Enter your new first name: ");
+                        salesperson.FirstName = Console.ReadLine();
+                        ConsoleUtil.DisplayMessage("");
+                        break;
+
+                    case "2":
+                        ConsoleUtil.HeaderText = "Update Last Name";
+                        ConsoleUtil.DisplayReset();
+
+                        ConsoleUtil.DisplayPromptMessage("Enter your new last name: ");
+                        salesperson.LastName = Console.ReadLine();
+                        ConsoleUtil.DisplayMessage("");
+                        break;
+
+                    case "3":
+                        ConsoleUtil.HeaderText = "Update Account ID";
+                        ConsoleUtil.DisplayReset();
+
+                        ConsoleUtil.DisplayPromptMessage("Enter your new Account ID: ");
+                        salesperson.AccountID = Console.ReadLine();
+                        ConsoleUtil.DisplayMessage("");
+                        break;
+
+                    case "4":
+                        ConsoleUtil.HeaderText = "Update Starting City";
+                        ConsoleUtil.DisplayReset();
+
+                        ConsoleUtil.DisplayPromptMessage("Enter your new starting city: ");
+                        salesperson.StartingCity = Console.ReadLine();
+                        ConsoleUtil.DisplayMessage("");
+                        break;
+
+                    case "5":
+                        ConsoleUtil.HeaderText = "Update Product Type";
+                        ConsoleUtil.DisplayReset();
+
+                        Product.ProductType productType;
+
+                        ConsoleUtil.DisplayMessage("");
+                        ConsoleUtil.DisplayPromptMessage("Enter you new product selection: ");
+
+                        //
+                        // get new product type from user
+                        //
+                        if (Enum.TryParse<Product.ProductType>(UppercaseFirst(Console.ReadLine()), out productType))
+                        {
+                            salesperson.CurrentStock.Type = productType;                            
+                        }
+                        else
+                        {
+                            ConsoleUtil.DisplayReset();
+                            ConsoleUtil.DisplayMessage("Seems like you entered an invalid product type.");
+                            ConsoleUtil.DisplayMessage("By default, your product type has been set to None.");
+                            salesperson.CurrentStock.Type = Product.ProductType.None;                          
+                            DisplayContinuePrompt();
+                        }                        
+                        break;
+
+                    default:
+                        break;
+                }
+                ConsoleUtil.HeaderText = "Update Account";
+                ConsoleUtil.DisplayReset();
+                ConsoleUtil.DisplayMessage("Your account has been updated!");
+                ConsoleUtil.DisplayMessage("");
+                userResponse = ConsoleValidator.GetYesNoFromUser(MAXIMUM_ATTEMPTS, "\tWould you like to make more changes or continue on?", out maxAttemptsExceeded);
+
+                if (maxAttemptsExceeded)
+                {
+                    ConsoleUtil.DisplayMessage("Max attempts exceeded! You will now be returned to the main menu.");
+                    return salesperson;
+                }
+                else if (userResponse.ToUpper() == "YES")
+                {
+                    editingAccount = true;
+                }
+                else
+                {
+                    editingAccount = false;
+                    return salesperson;
+                }
+            }            
+            return salesperson;
+        }
+
         #endregion
     }
 }

@@ -118,7 +118,7 @@ namespace The_Sales_Tracker
 
             while (!validInput && !maxAttemptsExceeded)
             {
-                Console.Write($"{userPrompt} [Yes / No] ");
+                ConsoleUtil.DisplayPromptMessage($"{userPrompt} [Yes / No] ");
                 userResponse = Console.ReadLine();
                 ConsoleUtil.DisplayMessage("");
 

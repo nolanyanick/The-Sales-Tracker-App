@@ -13,9 +13,12 @@ namespace The_Sales_Tracker
         public enum ProductType
         {
             None,
-            Furry,
-            Spotted,
-            Dancing
+            Gilded,
+            Spiked,
+            Colorful,
+            Vintage,
+            Striped,
+            Used
         }
 
         #endregion
@@ -24,7 +27,7 @@ namespace The_Sales_Tracker
 
         public int _numberOfUnits;
         private bool _onBackorder;
-        private ProductType _type;
+        private ProductType _type;      
 
         #endregion
 
@@ -35,13 +38,11 @@ namespace The_Sales_Tracker
             get { return _numberOfUnits; }
         }
 
-
         public bool OnBackorder
         {
             get { return _onBackorder; }
             set { _onBackorder = value; }
         }
-
 
         public ProductType Type
         {
@@ -56,7 +57,7 @@ namespace The_Sales_Tracker
         public Product()
         {
             _type = ProductType.None;
-            _numberOfUnits = 0;
+            _numberOfUnits = 0;            
         }
 
         public Product(ProductType type, int numberOfUnits)

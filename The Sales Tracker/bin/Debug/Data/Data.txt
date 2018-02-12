@@ -1,0 +1,2 @@
+nolan,yanick,nby,Detroit,Gilded,70,False
+Atlanta,Chicago

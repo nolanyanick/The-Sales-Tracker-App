@@ -22,11 +22,11 @@ namespace The_Sales_Tracker
 
         private static string _headerText = "- set header text -";
 
-        private static ConsoleColor _headerBackgroundColor = ConsoleColor.White;
-        private static ConsoleColor _headerForegroundColor = ConsoleColor.Red;
+        private static ConsoleColor _headerBackgroundColor = ConsoleColor.DarkYellow;
+        private static ConsoleColor _headerForegroundColor = ConsoleColor.Black;
 
         private static ConsoleColor _bodyBackgroundColor = ConsoleColor.Black;
-        private static ConsoleColor _bodyForegroundColor = ConsoleColor.White;
+        private static ConsoleColor _bodyForegroundColor = ConsoleColor.Gray;
 
         private static string _windowTitle = " - set window title - ";
 
@@ -68,25 +68,25 @@ namespace The_Sales_Tracker
         
         public static ConsoleColor HeaderBackgroundColor
         {
-            get { return _headerBackgroundColor = ConsoleColor.White; }
+            get { return _headerBackgroundColor; }
             set { _headerBackgroundColor = value; }
         }
 
         public static ConsoleColor HeaderForegroundColor
         {
-            get { return _headerForegroundColor = ConsoleColor.Red; }
+            get { return _headerForegroundColor; }
             set { _headerForegroundColor = value; }
         }
 
         public static ConsoleColor BodyBackgroundColor
         {
-            get { return _bodyBackgroundColor = ConsoleColor.White; }
+            get { return _bodyBackgroundColor = ConsoleColor.Black; }
             set { _bodyBackgroundColor = value; }
         }
 
         public static ConsoleColor BodyForegroundColor
         {
-            get { return _bodyForegroundColor = ConsoleColor.Red; }
+            get { return _bodyForegroundColor = ConsoleColor.Gray; }
             set { _bodyForegroundColor = value; }
         }
         
